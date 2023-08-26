@@ -15,9 +15,12 @@ export class XhrInterceptor implements HttpInterceptor {
     if(sessionStorage.getItem('userdetails')){
       this.user = JSON.parse(sessionStorage.getItem('userdetails')!);
     }
+    //esto para la primera vez qye se autentica
     if(this.user && this.user.password && this.user.email){
       httpHeaders = httpHeaders.append('Authorization', 'Basic ' + window.btoa(this.user.email + ':' + this.user.password));
-    }else {
+    }
+    //para el resto de las req. envio el token:
+    else {
       let authorization = sessionStorage.getItem('Authorization');
       if(authorization){
         httpHeaders = httpHeaders.append('Authorization', authorization); 
